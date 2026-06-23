@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DreamSexWorld · 3D Sex Simulation</title>
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome untuk ikon -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Reset & Base */
+    /* Reset & Base - gaya gelap mewah */
     * {
       margin: 0;
       padding: 0;
@@ -15,10 +15,10 @@
     }
 
     body {
-      background: #0b0b0b;
-      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
-      color: #f0ece6;
-      line-height: 1.5;
+      background: #0a0808;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      color: #f0e8e0;
+      line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -28,46 +28,46 @@
     .container {
       max-width: 1200px;
       width: 100%;
-      padding: 1.5rem 1.2rem;
+      padding: 1.8rem 1.5rem;
     }
 
-    /* age gate overlay (optional) – visible until user clicks */
+    /* ---- AGE GATE OVERLAY (18+) ---- */
     .age-gate-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.92);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.93);
+      backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9999;
       padding: 1.5rem;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.6s ease;
     }
     .age-gate-overlay.hidden {
       opacity: 0;
       pointer-events: none;
     }
     .age-gate-box {
-      background: #1a1a1a;
-      max-width: 480px;
+      background: #14100e;
+      max-width: 500px;
       width: 100%;
-      padding: 2.8rem 2rem;
-      border-radius: 32px;
+      padding: 3rem 2rem 2.5rem;
+      border-radius: 36px;
       text-align: center;
-      border: 1px solid #3a2a2a;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      border: 1px solid #3d2c2a;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.9);
     }
     .age-gate-box h2 {
-      font-size: 2rem;
+      font-size: 2.2rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      background: linear-gradient(135deg, #f7977a, #d44a4a);
+      background: linear-gradient(135deg, #f0977a, #c94a4a);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .age-gate-box p {
-      color: #b0a8a0;
+      color: #b0a098;
       margin-bottom: 2rem;
       font-size: 1rem;
     }
@@ -78,7 +78,7 @@
       flex-wrap: wrap;
     }
     .btn-age {
-      padding: 0.7rem 2.5rem;
+      padding: 0.8rem 2.8rem;
       border-radius: 60px;
       font-weight: 700;
       font-size: 1.1rem;
@@ -87,52 +87,52 @@
       transition: 0.2s;
     }
     .btn-age.yes {
-      background: #d44a4a;
+      background: #c94a4a;
       color: white;
-      box-shadow: 0 4px 20px rgba(212, 74, 74, 0.4);
+      box-shadow: 0 4px 25px rgba(201, 74, 74, 0.5);
     }
     .btn-age.yes:hover {
-      background: #e65a5a;
-      transform: scale(1.03);
+      background: #e05a5a;
+      transform: scale(1.04);
     }
     .btn-age.no {
-      background: #333;
-      color: #aaa;
+      background: #2a2522;
+      color: #a09088;
     }
     .btn-age.no:hover {
-      background: #444;
+      background: #3a3532;
     }
 
-    /* header */
+    /* ---- HEADER ---- */
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 0.8rem 1.5rem;
+      gap: 1rem;
       margin-bottom: 2.5rem;
       padding-bottom: 1rem;
-      border-bottom: 1px solid #2a2522;
+      border-bottom: 1px solid #2a2220;
     }
     .logo {
-      font-size: 1.8rem;
+      font-size: 2rem;
       font-weight: 800;
       letter-spacing: -0.5px;
     }
     .logo span {
-      color: #d44a4a;
+      color: #c94a4a;
     }
     .logo small {
       font-weight: 400;
-      font-size: 0.8rem;
-      color: #a09088;
+      font-size: 0.75rem;
+      color: #8a7a72;
       margin-left: 8px;
     }
     .nav-links {
       display: flex;
       gap: 1.8rem;
       font-weight: 500;
-      color: #b0a8a0;
+      color: #b0a098;
     }
     .nav-links a {
       color: inherit;
@@ -141,92 +141,94 @@
       font-size: 0.95rem;
     }
     .nav-links a:hover {
-      color: #f0ece6;
+      color: #f0e8e0;
     }
 
-    /* hero */
+    /* ---- HERO SECTION (mirip dengan copy dari situs) ---- */
     .hero {
       text-align: center;
-      padding: 2.5rem 0.5rem 3rem;
+      padding: 2rem 0.5rem 2.5rem;
+    }
+    .hero .tagline {
+      font-size: 1rem;
+      color: #f0977a;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
     }
     .hero h1 {
-      font-size: clamp(2.2rem, 8vw, 4.2rem);
+      font-size: clamp(2.5rem, 9vw, 4.8rem);
       font-weight: 800;
       line-height: 1.1;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
       background: linear-gradient(145deg, #ffffff, #d4b8a8);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .hero p {
+    .hero .subhead {
       font-size: 1.2rem;
       color: #c0b4aa;
-      max-width: 700px;
-      margin: 0 auto 2rem;
-    }
-    .hero .tagline {
-      font-size: 1rem;
-      color: #f7977a;
-      font-weight: 500;
-      letter-spacing: 1px;
-      margin-bottom: 0.5rem;
+      max-width: 750px;
+      margin: 0 auto 1.8rem;
     }
     .hero .badge-group {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 0.8rem 2rem;
-      margin: 1.5rem 0 2.2rem;
-      font-weight: 500;
+      gap: 1.2rem 2.5rem;
+      margin: 1.8rem 0 2.5rem;
+      font-weight: 600;
       color: #b0a090;
+      font-size: 1.1rem;
     }
     .hero .badge-group i {
-      color: #d44a4a;
-      margin-right: 6px;
+      color: #c94a4a;
+      margin-right: 10px;
     }
 
     .btn-download-hero {
       display: inline-block;
-      background: #d44a4a;
+      background: #c94a4a;
       color: white;
-      padding: 1rem 3.5rem;
+      padding: 1rem 3.8rem;
       border-radius: 60px;
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       text-decoration: none;
-      box-shadow: 0 8px 30px rgba(212, 74, 74, 0.35);
+      box-shadow: 0 8px 35px rgba(201, 74, 74, 0.4);
       transition: 0.2s;
       border: none;
       cursor: pointer;
     }
     .btn-download-hero:hover {
-      background: #e65a5a;
-      transform: scale(1.02);
-      box-shadow: 0 12px 40px rgba(212, 74, 74, 0.5);
+      background: #e05a5a;
+      transform: scale(1.03);
+      box-shadow: 0 12px 45px rgba(201, 74, 74, 0.6);
     }
 
-    /* features section */
+    /* ---- FEATURES / VALUE PROPS (dari teks) ---- */
     .features {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem;
-      margin: 3.5rem 0 3rem;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.8rem;
+      margin: 3rem 0 2.5rem;
       text-align: center;
     }
     .feature-item {
-      background: #161210;
-      padding: 1.8rem 1rem;
+      background: #14100e;
+      padding: 1.8rem 0.8rem;
       border-radius: 24px;
-      border: 1px solid #2a2520;
+      border: 1px solid #2a2220;
       transition: 0.2s;
     }
     .feature-item:hover {
-      border-color: #d44a4a;
-      background: #1e1a18;
+      border-color: #c94a4a;
+      background: #1e1816;
     }
     .feature-item i {
-      font-size: 2.4rem;
-      color: #d44a4a;
+      font-size: 2.6rem;
+      color: #c94a4a;
       margin-bottom: 0.6rem;
     }
     .feature-item h4 {
@@ -235,63 +237,63 @@
       margin-bottom: 0.2rem;
     }
     .feature-item p {
-      color: #8a8078;
-      font-size: 0.9rem;
+      color: #8a7a72;
+      font-size: 0.85rem;
     }
 
-    /* game grid – untuk showcase */
+    /* ---- GAME GRID (showcase) ---- */
     .section-title {
       font-size: 1.8rem;
       font-weight: 700;
-      margin: 3rem 0 1.5rem;
+      margin: 3rem 0 1.8rem;
       letter-spacing: -0.3px;
     }
     .section-title span {
-      color: #d44a4a;
+      color: #c94a4a;
     }
     .game-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
       gap: 2rem;
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
     }
     .game-card {
-      background: #141210;
+      background: #14100e;
       border-radius: 24px;
       overflow: hidden;
-      border: 1px solid #2a2520;
+      border: 1px solid #2a2220;
       transition: 0.25s ease;
       display: flex;
       flex-direction: column;
     }
     .game-card:hover {
       transform: translateY(-6px);
-      border-color: #d44a4a;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      border-color: #c94a4a;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7);
     }
     .card-thumb {
-      height: 150px;
-      background: #2a2420;
+      height: 160px;
+      background: #2a2220;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #6a6058;
+      color: #6a5a52;
       font-size: 0.9rem;
       position: relative;
-      background-image: linear-gradient(145deg, #2f2824, #1e1a18);
+      background-image: linear-gradient(145deg, #2f2824, #1e1816);
     }
     .card-thumb i {
-      font-size: 3rem;
+      font-size: 3.5rem;
       opacity: 0.5;
-      color: #d44a4a;
+      color: #c94a4a;
     }
     .card-thumb .badge-18 {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      background: #d44a4a;
+      top: 14px;
+      right: 14px;
+      background: #c94a4a;
       color: white;
-      padding: 0.2rem 0.8rem;
+      padding: 0.2rem 0.9rem;
       border-radius: 30px;
       font-size: 0.7rem;
       font-weight: 700;
@@ -308,7 +310,7 @@
       margin-bottom: 0.3rem;
     }
     .card-desc {
-      color: #9a9088;
+      color: #9a8a82;
       font-size: 0.9rem;
       margin-bottom: 1rem;
       flex: 1;
@@ -318,14 +320,14 @@
       justify-content: space-between;
       align-items: center;
       margin-top: 0.5rem;
-      border-top: 1px solid #2a2520;
+      border-top: 1px solid #2a2220;
       padding-top: 1rem;
     }
     .btn-download-card {
-      background: #d44a4a;
+      background: #c94a4a;
       color: white;
       border: none;
-      padding: 0.5rem 1.4rem;
+      padding: 0.5rem 1.6rem;
       border-radius: 40px;
       font-weight: 600;
       font-size: 0.85rem;
@@ -337,34 +339,34 @@
       cursor: pointer;
     }
     .btn-download-card:hover {
-      background: #e65a5a;
+      background: #e05a5a;
       transform: scale(0.97);
     }
     .card-footer .version {
-      color: #6a6058;
+      color: #6a5a52;
       font-size: 0.8rem;
     }
 
-    /* footer */
+    /* ---- FOOTER ---- */
     .footer {
       margin-top: 4rem;
       padding-top: 2rem;
-      border-top: 1px solid #2a2520;
+      border-top: 1px solid #2a2220;
       text-align: center;
-      color: #6a6058;
+      color: #6a5a52;
       font-size: 0.9rem;
     }
     .footer a {
-      color: #b0a090;
+      color: #b0a098;
       text-decoration: none;
       margin: 0 0.8rem;
     }
     .footer a:hover {
-      color: #f0ece6;
+      color: #f0e8e0;
     }
 
-    /* responsive */
-    @media (max-width: 600px) {
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 640px) {
       .header {
         flex-direction: column;
         align-items: stretch;
@@ -372,11 +374,11 @@
       }
       .nav-links {
         justify-content: space-around;
-        gap: 0.5rem;
+        gap: 0.3rem;
         flex-wrap: wrap;
       }
       .hero h1 {
-        font-size: 2.2rem;
+        font-size: 2.4rem;
       }
       .btn-download-hero {
         padding: 0.8rem 2.2rem;
@@ -385,12 +387,16 @@
       .age-gate-box {
         padding: 2rem 1.2rem;
       }
+      .hero .badge-group {
+        gap: 0.8rem 1.5rem;
+        font-size: 0.95rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- AGE GATE OVERLAY (18+) -->
+  <!-- AGE GATE OVERLAY (18+) - WAJIB SESUAI SITUS DEWASA -->
   <div class="age-gate-overlay" id="ageGate">
     <div class="age-gate-box">
       <h2>🔥 Are you over 18?</h2>
@@ -416,32 +422,37 @@
       </div>
     </header>
 
-    <!-- HERO -->
+    <!-- HERO SECTION - KONTEN DIAMBIL DARI TEKS SITUS -->
     <section class="hero">
-      <div class="tagline"><i class="fas fa-star"></i> THE MOST EXPLICIT 3D SEX SIMULATION</div>
+      <div class="tagline"><i class="fas fa-star"></i> Forget just regular video clips!</div>
       <h1>DreamSexWorld</h1>
-      <p>Explore a stunning XXX 3D world filled with incredibly interactive erotic experiences. You control all the action, the characters and the sex scenes.</p>
+      <p class="subhead">
+        <strong>Our game provides you with the hottest interactive sex game experience yet.</strong><br>
+        Explore a stunning XXX 3D world filled with incredibly interactive erotic experiences. You control all the action, the characters and the sex scenes.
+      </p>
       
+      <!-- BADGE SESUAI TEKS: CAMERA ANGLES, UPDATES, RE-IMAGINED -->
       <div class="badge-group">
         <span><i class="fas fa-camera"></i> CAMERA ANGLES</span>
         <span><i class="fas fa-sync"></i> UPDATES</span>
         <span><i class="fas fa-vector-square"></i> RE-IMAGINED</span>
       </div>
 
+      <!-- TOMBOL DOWNLOAD UTAMA -->
       <a href="#" class="btn-download-hero" id="heroDownloadBtn">
         <i class="fas fa-download"></i> DOWNLOAD NOW
       </a>
-      <p style="margin-top: 1rem; font-size: 0.8rem; color: #6a6058;">
-        <i class="fas fa-lock"></i> 18+ · Direct download · Adsterra link
+      <p style="margin-top: 1.2rem; font-size: 0.8rem; color: #6a5a52;">
+        <i class="fas fa-shield-alt"></i> 18+ · Direct download · Secure link
       </p>
     </section>
 
-    <!-- FEATURES -->
+    <!-- FEATURES - MEMPERKUAT PESAN -->
     <div class="features">
       <div class="feature-item">
         <i class="fas fa-cube"></i>
         <h4>3D World</h4>
-        <p>Fully immersive environments</p>
+        <p>Immersive & stunning environments</p>
       </div>
       <div class="feature-item">
         <i class="fas fa-people-arrows"></i>
@@ -460,7 +471,7 @@
       </div>
     </div>
 
-    <!-- GAME GRID (showcase) -->
+    <!-- GAME GRID (SHOWCASE) - UNTUK MENAMPILKAN VARIASI -->
     <h2 class="section-title">Featured <span>Experiences</span></h2>
     <div class="game-grid" id="gameGrid">
       <!-- akan diisi oleh JavaScript -->
@@ -482,12 +493,12 @@
 
   <script>
     (function() {
-      // ---- AGE GATE ----
+      // ---- AGE GATE LOGIC ----
       const ageGate = document.getElementById('ageGate');
       const ageYes = document.getElementById('ageYes');
       const ageNo = document.getElementById('ageNo');
 
-      // cek session storage agar tidak muncul lagi
+      // Cek sessionStorage agar tidak muncul lagi
       if (sessionStorage.getItem('ageVerified') === 'true') {
         ageGate.classList.add('hidden');
       }
@@ -498,30 +509,31 @@
       });
 
       ageNo.addEventListener('click', function() {
-        // redirect ke google atau halaman peringatan
+        // Redirect ke Google atau halaman peringatan
         window.location.href = 'https://www.google.com';
       });
 
-      // ---- GAME DATA (untuk showcase) ----
+      // ---- GAME DATA UNTUK GRID (sesuai tema) ----
       const games = [
-        { title: "DreamSex World", desc: "The ultimate 3D sex sim. Full control.", version: "v2.4" },
-        { title: "Passion Island", desc: "Interactive tropical adult adventure.", version: "v1.8" },
-        { title: "Cyber Lust", desc: "Futuristic XXX simulation with AI.", version: "v3.1" },
-        { title: "Fantasy Harem", desc: "Build your harem in a magical 3D world.", version: "v2.0" },
-        { title: "Dark Desires", desc: "Mysterious and explicit story-driven game.", version: "v1.5" },
+        { title: "DreamSex World", desc: "The ultimate 3D sex sim. Full control over scenes.", version: "v2.4" },
+        { title: "Passion Island", desc: "Interactive tropical adult adventure with AI.", version: "v1.8" },
+        { title: "Cyber Lust", desc: "Futuristic XXX simulation with advanced physics.", version: "v3.1" },
+        { title: "Fantasy Harem", desc: "Build your harem in a magical 3D realm.", version: "v2.0" },
+        { title: "Dark Desires", desc: "Mysterious story-driven explicit game.", version: "v1.5" },
         { title: "Neon Nights", desc: "Nightclub adult simulation with dance & more.", version: "v2.2" }
       ];
 
-      // Adsterra direct links (ganti dengan link asli Anda)
+      // ---- LINK DOWNLOAD ADSTERRA (GANTI DENGAN LINK ASLI ANDA) ----
       const downloadLinks = [
-        "https://adsterra.com/direct-link/dreamsexworld",
-        "https://adsterra.com/direct-link/passionisland",
-        "https://adsterra.com/direct-link/cyberlust",
-        "https://adsterra.com/direct-link/fantasyharem",
-        "https://adsterra.com/direct-link/darkdesires",
-        "https://adsterra.com/direct-link/neonnights"
+        "https://adsterra.com/direct-link/dreamsexworld", // ganti
+        "https://adsterra.com/direct-link/passionisland", // ganti
+        "https://adsterra.com/direct-link/cyberlust",     // ganti
+        "https://adsterra.com/direct-link/fantasyharem",  // ganti
+        "https://adsterra.com/direct-link/darkdesires",   // ganti
+        "https://adsterra.com/direct-link/neonnights"     // ganti
       ];
 
+      // Render game grid
       const grid = document.getElementById('gameGrid');
       if (grid) {
         grid.innerHTML = '';
@@ -529,7 +541,7 @@
           const card = document.createElement('div');
           card.className = 'game-card';
 
-          // thumbnail
+          // Thumbnail
           const thumb = document.createElement('div');
           thumb.className = 'card-thumb';
           thumb.innerHTML = `
@@ -538,7 +550,7 @@
           `;
           card.appendChild(thumb);
 
-          // body
+          // Body
           const body = document.createElement('div');
           body.className = 'card-body';
 
@@ -552,7 +564,7 @@
           desc.textContent = game.desc;
           body.appendChild(desc);
 
-          // footer
+          // Footer dengan tombol download
           const footer = document.createElement('div');
           footer.className = 'card-footer';
 
@@ -575,7 +587,7 @@
         });
       }
 
-      // ---- HERO DOWNLOAD BUTTON (gunakan link pertama atau custom) ----
+      // ---- HERO DOWNLOAD BUTTON - gunakan link pertama ----
       const heroBtn = document.getElementById('heroDownloadBtn');
       if (heroBtn) {
         heroBtn.href = downloadLinks[0] || '#';
@@ -583,8 +595,7 @@
         heroBtn.rel = 'noopener noreferrer';
       }
 
-      // ---- jika user sudah verify, tombol langsung mengarah ke link ----
-      console.log('🔞 DreamSexWorld landing page siap. Ganti semua link download dengan Adsterra direct link Anda.');
+      console.log('🔥 DreamSexWorld landing page siap. Ganti semua link download dengan Adsterra direct link Anda.');
     })();
   </script>
 </body>
