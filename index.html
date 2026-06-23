@@ -1,396 +1,591 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-	<script>
-(function () {
-  const POP_URL = "https://www.effectivegatecpm.com/ztq64ga7?key=73eff3d564ed5ace465b967a86312028";
-  const KEY = "popunder_last_ts";
-  const COOKIE = "popunder_last_ts";
-  const INTERVAL_MS = 1 * 60 * 1000; // ⏱️ 1 menit
-
-  function now(){ return Date.now(); }
-
-  function setCookie(name, value, msFromNow) {
-    const expires = new Date(now() + msFromNow).toUTCString();
-    document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}; expires=${expires}; path=/; SameSite=Lax`;
-  }
-
-  function getCookie(name) {
-    const found = document.cookie.split("; ").find(r => r.startsWith(encodeURIComponent(name) + "="));
-    return found ? decodeURIComponent(found.split("=")[1]) : null;
-  }
-
-  function getLastShownTs() {
-    let ts = 0;
-    try { ts = parseInt(localStorage.getItem(KEY) || "0", 10) || 0; } catch(e){}
-    if (!ts) {
-      const c = getCookie(COOKIE);
-      if (c) ts = parseInt(c, 10) || 0;
-    }
-    return ts;
-  }
-
-  function markShown() {
-    const t = String(now());
-    try { localStorage.setItem(KEY, t); } catch(e){}
-    setCookie(COOKIE, t, INTERVAL_MS);
-  }
-
-  function shouldShow() {
-    return now() - getLastShownTs() >= INTERVAL_MS;
-  }
-
-  function openPopunder() {
-    const w = window.open(POP_URL, "_blank", "noopener"); // harus terjadi dalam user gesture
-    if (w) {
-      try { w.blur(); } catch(e){}
-      setTimeout(() => { try { window.focus(); } catch(e){} }, 0);
-      markShown();
-    }
-  }
-
-  if (shouldShow()) {
-    const handler = () => {
-      // guard kedua: pastikan belum lewat user gesture lain yang memicu
-      if (shouldShow()) openPopunder();
-      document.removeEventListener('pointerdown', handler);
-      document.removeEventListener('keydown', handler);
-      document.removeEventListener('touchstart', handler);
-    };
-    // tangkap first user gesture sebanyak mungkin jenisnya
-    document.addEventListener('pointerdown', handler, { once: true, passive: true });
-    document.addEventListener('keydown', handler, { once: true });
-    document.addEventListener('touchstart', handler, { once: true, passive: true });
-  }
-})();
-</script>
-	<meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Video Page Mock</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DreamSexWorld · 3D Sex Simulation</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    :root{
-      --bg:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0; --brand:#111827;
-      --btn:#111827; --btnText:#ffffff; --btnHover:#000000; --card:#f8fafc;
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /* ===== RESET & BASE ===== */
-    *,*::before,*::after{ box-sizing:border-box }
-    html{ -webkit-text-size-adjust:100% }
-    html,body{ height:100%; margin:0 }
-    body{
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
-      color:var(--text); background:var(--bg); line-height:1.45;
-      overflow-x:hidden; /* cegah melebar */
-    }
-    img,video,canvas,svg,iframe{ max-width:100%; height:auto; display:block }
-
-    /* ===== APP BAR ===== */
-    .appbar{
-      position:sticky; top:0; z-index:20; background:rgba(255,255,255,.85);
-      backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid var(--line);
-    }
-    .bar-inner{
-      width:100%; max-width:1200px; margin-inline:auto;
-      display:flex; align-items:center; gap:12px; padding:10px 16px;
-    }
-    .brand{ display:flex; align-items:center; gap:8px; font-weight:800; letter-spacing:.2px }
-    .logo{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:6px; background:#111827; color:#fff; font-size:14px }
-    .spacer{ flex:1 }
-    .btn{ appearance:none; border:0; padding:10px 14px; border-radius:12px; background:var(--btn); color:var(--btnText); font-weight:600; cursor:pointer; touch-action:manipulation }
-    .btn:hover{ background:var(--btnHover) }
-
-    /* ===== BANNER INFO ===== */
-    .banner{
-      width:100%; max-width:1200px; margin:10px auto 0; padding:8px 16px;
-      color:var(--muted); font-size:14px;
+    body {
+      background: #0b0b0b;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      color: #f0ece6;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    /* ===== LAYOUT ===== */
-    .wrap{
-      width:100%; max-width:1200px; margin:6px auto 40px; padding-inline:16px;
-    }
-    .player-shell{ display:grid; place-items:center; margin-top:20px }
-
-    /* Elemen ‘ponsel/video’ aman di HP */
-    .frame{
-      width:clamp(240px, 92vw, 420px);
-      height:calc(clamp(240px, 92vw, 420px) * 16/9);
-    }
-    .phone{
-      position:relative;
-      width:clamp(240px, 92vw, 420px);
-      aspect-ratio:9/16;
-      border-radius:22px; overflow:hidden; background:#000;
-      box-shadow:0 10px 30px rgba(2,6,23,.15), 0 3px 10px rgba(2,6,23,.08);
-    }
-    .phone video,.phone img{ width:100%; height:100%; object-fit:cover }
-
-    /* Footer meta */
-    .meta{
-      width:100%; max-width:760px; margin:22px auto 0; padding:0 6px;
-      text-align:center; color:var(--muted); font-size:13px;
+    .container {
+      max-width: 1200px;
+      width: 100%;
+      padding: 1.5rem 1.2rem;
     }
 
-    /* Slot iklan dummy di halaman (bukan popup) */
-    .ad-slot{
-      width:100%; max-width:760px; margin:28px auto 0;
-      background:var(--card); border:1px dashed var(--line); border-radius:16px; padding:16px; text-align:center; color:var(--muted);
+    /* age gate overlay (optional) – visible until user clicks */
+    .age-gate-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1.5rem;
+      transition: opacity 0.5s ease;
+    }
+    .age-gate-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .age-gate-box {
+      background: #1a1a1a;
+      max-width: 480px;
+      width: 100%;
+      padding: 2.8rem 2rem;
+      border-radius: 32px;
+      text-align: center;
+      border: 1px solid #3a2a2a;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    }
+    .age-gate-box h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #f7977a, #d44a4a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .age-gate-box p {
+      color: #b0a8a0;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+    .age-gate-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-age {
+      padding: 0.7rem 2.5rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-age.yes {
+      background: #d44a4a;
+      color: white;
+      box-shadow: 0 4px 20px rgba(212, 74, 74, 0.4);
+    }
+    .btn-age.yes:hover {
+      background: #e65a5a;
+      transform: scale(1.03);
+    }
+    .btn-age.no {
+      background: #333;
+      color: #aaa;
+    }
+    .btn-age.no:hover {
+      background: #444;
     }
 
-    /* ===== DESKTOP ENHANCEMENT ===== */
-    @media (min-width:1024px){
-      .wrap{
-        display:grid;
-        grid-template-columns:minmax(0,1fr) minmax(0,480px) minmax(0,1fr);
-        align-items:start;
+    /* header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.5rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #2a2522;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .logo span {
+      color: #d44a4a;
+    }
+    .logo small {
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: #a09088;
+      margin-left: 8px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      font-weight: 500;
+      color: #b0a8a0;
+    }
+    .nav-links a {
+      color: inherit;
+      text-decoration: none;
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+    .nav-links a:hover {
+      color: #f0ece6;
+    }
+
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 2.5rem 0.5rem 3rem;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 8vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.2rem;
+      background: linear-gradient(145deg, #ffffff, #d4b8a8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #c0b4aa;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+    .hero .tagline {
+      font-size: 1rem;
+      color: #f7977a;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+    .hero .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem 2rem;
+      margin: 1.5rem 0 2.2rem;
+      font-weight: 500;
+      color: #b0a090;
+    }
+    .hero .badge-group i {
+      color: #d44a4a;
+      margin-right: 6px;
+    }
+
+    .btn-download-hero {
+      display: inline-block;
+      background: #d44a4a;
+      color: white;
+      padding: 1rem 3.5rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-decoration: none;
+      box-shadow: 0 8px 30px rgba(212, 74, 74, 0.35);
+      transition: 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-download-hero:hover {
+      background: #e65a5a;
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(212, 74, 74, 0.5);
+    }
+
+    /* features section */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+      margin: 3.5rem 0 3rem;
+      text-align: center;
+    }
+    .feature-item {
+      background: #161210;
+      padding: 1.8rem 1rem;
+      border-radius: 24px;
+      border: 1px solid #2a2520;
+      transition: 0.2s;
+    }
+    .feature-item:hover {
+      border-color: #d44a4a;
+      background: #1e1a18;
+    }
+    .feature-item i {
+      font-size: 2.4rem;
+      color: #d44a4a;
+      margin-bottom: 0.6rem;
+    }
+    .feature-item h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .feature-item p {
+      color: #8a8078;
+      font-size: 0.9rem;
+    }
+
+    /* game grid – untuk showcase */
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 3rem 0 1.5rem;
+      letter-spacing: -0.3px;
+    }
+    .section-title span {
+      color: #d44a4a;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    .game-card {
+      background: #141210;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid #2a2520;
+      transition: 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: #d44a4a;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    }
+    .card-thumb {
+      height: 150px;
+      background: #2a2420;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6a6058;
+      font-size: 0.9rem;
+      position: relative;
+      background-image: linear-gradient(145deg, #2f2824, #1e1a18);
+    }
+    .card-thumb i {
+      font-size: 3rem;
+      opacity: 0.5;
+      color: #d44a4a;
+    }
+    .card-thumb .badge-18 {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #d44a4a;
+      color: white;
+      padding: 0.2rem 0.8rem;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    .card-body {
+      padding: 1.2rem 1.2rem 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+    .card-desc {
+      color: #9a9088;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+      border-top: 1px solid #2a2520;
+      padding-top: 1rem;
+    }
+    .btn-download-card {
+      background: #d44a4a;
+      color: white;
+      border: none;
+      padding: 0.5rem 1.4rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.15s;
+      cursor: pointer;
+    }
+    .btn-download-card:hover {
+      background: #e65a5a;
+      transform: scale(0.97);
+    }
+    .card-footer .version {
+      color: #6a6058;
+      font-size: 0.8rem;
+    }
+
+    /* footer */
+    .footer {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid #2a2520;
+      text-align: center;
+      color: #6a6058;
+      font-size: 0.9rem;
+    }
+    .footer a {
+      color: #b0a090;
+      text-decoration: none;
+      margin: 0 0.8rem;
+    }
+    .footer a:hover {
+      color: #f0ece6;
+    }
+
+    /* responsive */
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
       }
-      .player-shell{ grid-column:2 }
-    }
-
-    /* ===== POPUP GATE (tema gelap) ===== */
-    :root{
-      --card-dark:#0f172a; --text-dark:#e5e7eb; --muted-dark:#94a3b8; --line-dark:#1e293b;
-    }
-    #gate-overlay{
-      position:fixed; inset:0; background:rgba(2,6,23,.6);
-      backdrop-filter: blur(3px) saturate(130%); z-index:9998;
-    }
-    #gate-modal{
-      position:fixed; inset:0; z-index:9999;
-      display:flex; align-items:center; justify-content:center; padding:16px;
-    }
-    .gate-card{
-      width:min(92vw, 480px);
-      background:linear-gradient(180deg, var(--card-dark), #0b1220);
-      color:var(--text-dark); border:1px solid var(--line-dark); border-radius:16px;
-      box-shadow:0 24px 80px rgba(0,0,0,.45);
-      padding:20px; position:relative;
-    }
-    .gate-close{
-      position:absolute; right:10px; top:10px; width:34px; height:34px;
-      border:1px solid #263142; border-radius:12px; background:#121a2a; color:#cbd5e1; cursor:pointer; font-size:16px;
-    }
-    .gate-header h3{ margin:6px 0 4px; font-size:1.2rem }
-    .gate-sub{ margin:0 0 12px; color:var(--muted-dark) }
-    .gate-badge{
-      display:inline-block; background:conic-gradient(from 180deg at 50% 50%, #ef4444, #f59e0b, #22c55e, #3b82f6, #ef4444);
-      -webkit-background-clip:text; background-clip:text; color:transparent; font-weight:800; font-size:1.1rem;
-      border:1px solid #263142; padding:6px 10px; border-radius:10px;
-    }
-    .gate-icon{ font-size:28px }
-    .gate-check{ display:flex; gap:.6rem; align-items:flex-start; font-size:.98rem; margin:.25rem 0 1rem }
-    .gate-check input{ transform:translateY(3px) }
-    .gate-actions{ display:flex; gap:.6rem }
-    .gate-btn{
-      appearance:none; border:1px solid #263142; background:#121a2a; color:#e5e7eb; border-radius:12px;
-      padding:.65rem 1rem; font-weight:700; cursor:pointer; letter-spacing:.3px;
-    }
-    .gate-btn:disabled{ opacity:.5; cursor:not-allowed }
-    .gate-btn.ghost{ background:transparent; color:#cbd5e1 }
-    .gate-footnote{ margin:.8rem 0 0; font-size:.85rem; color:#93a4bd; display:flex; align-items:center; gap:.4rem }
-    .dot{ width:6px; height:6px; border-radius:50%; background:#22c55e; display:inline-block }
-
-    /* Ad slot di popup: scale 728×90 agar muat HP */
-    #ad-slot-wrap{ width:100%; overflow:hidden; border-top:1px dashed var(--line-dark); margin-top:8px; padding-top:8px; }
-    #ad-slot{ width:728px; transform-origin:top left }
-    @media (max-width:760px){
-      #ad-slot{ transform:scale(calc((100vw - 72px)/728)); } /* 72px ≈ padding & border kartu */
-    }
-
-    /* ===== MOBILE FIX PACK (override bandel) ===== */
-    html, body { width:100% !important; max-width:100% !important; }
-    html, body, .wrap, .container, .page, .section, #__next, main { min-width:0 !important; }
-    iframe[width]{ max-width:100% !important; width:100% !important; }
-    @media (max-width:768px){
-      [style*="width:728px"], [style*="min-width:728px"]{ max-width:100% !important; width:100% !important; }
+      .nav-links {
+        justify-content: space-around;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .hero h1 {
+        font-size: 2.2rem;
+      }
+      .btn-download-hero {
+        padding: 0.8rem 2.2rem;
+        font-size: 1rem;
+      }
+      .age-gate-box {
+        padding: 2rem 1.2rem;
+      }
     }
   </style>
 </head>
-
 <body>
-  <!-- Top bar -->
-  <header class="appbar">
-    <div class="bar-inner">
-      <div class="brand" aria-label="brand">
-        <span class="logo" aria-hidden>V</span>
-        <span>videy<span style="color:#3b82f6">.mock</span></span>
+
+  <!-- AGE GATE OVERLAY (18+) -->
+  <div class="age-gate-overlay" id="ageGate">
+    <div class="age-gate-box">
+      <h2>🔥 Are you over 18?</h2>
+      <p>This page contains explicit 3D adult content. Please confirm your age.</p>
+      <div class="age-gate-buttons">
+        <button class="btn-age yes" id="ageYes"><i class="fas fa-check"></i> Yes, I'm 18+</button>
+        <button class="btn-age no" id="ageNo"><i class="fas fa-times"></i> No</button>
       </div>
-      <div class="spacer"></div>
-      <button class="btn">Upload</button>
-    </div>
-  </header>
-
-  <div class="banner">Advertise</div>
-	
-  <!-- ===== MAIN CONTENT ===== -->
-  <main class="wrap">
-    <section class="player-shell">
-      <div class="phone">
-        <video id="video" playsinline controls poster="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3M-X2aUc7YBnCzsXYdXDFIGnNTnyOZdLD7WSuVB7C67ZDa5I8xSB7L2Ywa_cQ0SYC46GbaeuM7BXJr9xIFYdBKLuCn0sOB_QCWXcBcDcu76ExtHf7bQAelu2J7aG_Y7xTxX8c-2jb3KylN7yvKLZxH1i3pduJDWBr3EPsR6ZYD7hg9hIVGoldNJASu7Ua/w233-h400/Screenshot_53.png">
-          <source src="https://cdn.jsdelivr.net/gh/ngipay/video-cdn@main/asset/6yObtJFI1.mp4" type="video/mp4" />
-          Browser kamu tidak mendukung pemutar video HTML5.
-        </video>
-	
-      </div>
-
-      <div class="meta">0:00 / 3:57 • Putar untuk memulai</div>
-      <div class="ad-slot">Slot Iklan 728×90 (contoh)</div>
-    </section>
-  </main>
-
-  <script>
-    // Update teks durasi kecil
-    const v = document.getElementById('video');
-    const meta = document.querySelector('.meta');
-    function fmt(t){ const m = Math.floor(t/60); const s = Math.floor(t%60).toString().padStart(2,'0'); return `${m}:${s}`; }
-    v.addEventListener('loadedmetadata', ()=>{ meta.textContent = `0:00 / ${fmt(v.duration)}`; });
-    v.addEventListener('timeupdate',     ()=>{ meta.textContent = `${fmt(v.currentTime)} / ${fmt(v.duration)}`; });
-  </script>
-	<!-- ========== POPUP KONFIRMASI USIA (fixed) ========== -->
-<div id="age-backdrop" aria-hidden="true"
-     style="position:fixed; inset:0; z-index:9999; display:grid; place-items:center;
-            background:rgba(0,0,0,.50); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
-            padding:16px; opacity:0; visibility:hidden; pointer-events:none; 
-            transition:opacity .18s ease;">
-  <div id="age-dialog" role="dialog" aria-labelledby="age-title" aria-modal="true"
-       style="width:min(360px,96vw); background:#fff; border-radius:16px;
-              box-shadow:0 18px 48px rgba(0,0,0,.32); transform:scale(.96);
-              transition:transform .18s ease, opacity .18s ease; opacity:.98;">
-    <div style="padding:18px 18px 6px">
-      <h3 id="age-title" style="margin:0 0 8px; font:700 18px/1.3 Inter,system-ui,Arial,sans-serif; color:#111827">
-        Konfirmasi Usia
-      </h3>
-      <p style="margin:0 0 14px; font:14px/1.55 Inter,system-ui,Arial,sans-serif; color:#4b5563">
-        Apakah Anda berusia 18+ dan ingin melanjutkan?
-      </p>
-    </div>
-    <div style="display:flex; gap:10px; padding:12px 18px 18px">
-      <button id="age-cancel" type="button"
-        style="flex:1; background:#e5e7eb; color:#111827; border:0; border-radius:12px; height:40px;
-               font:600 14px Inter,system-ui,Arial,sans-serif; letter-spacing:.2px; cursor:pointer;">
-        BATAL
-      </button>
-      <button id="age-continue" type="button"
-        style="flex:1; background:#ef4444; color:#fff; border:0; border-radius:12px; height:40px;
-               font:700 14px Inter,system-ui,Arial,sans-serif; letter-spacing:.2px; cursor:pointer;">
-        LANJUT
-      </button>
     </div>
   </div>
-</div>
 
-<script>
-/* ================== KONFIG ================== */
-const AGE_NEXT_URL      = "https://www.effectivegatecpm.com/bi7ajmnc?key=5e2f61c1479a13e2ece895528bf32c43"; // tujuan tombol LANJUT
-const OFFER_URL         = "https://whatsapp.com/channel/0029Vb6He3YH5JM19YoLUX1X";  // tujuan tombol BATAL
-const AUTO_SHOW_DELAY_MS= 10000;
-const REMEMBER_TTL_MIN  = 120;
-/* ============================================ */
+  <div class="container">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="logo">
+        Dream<span>Sex</span>World <small>3D · Adult</small>
+      </div>
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Games</a>
+        <a href="#">Updates</a>
+        <a href="#">Support</a>
+      </div>
+    </header>
 
-const $root      = document.documentElement;
-const $body      = document.body;
-const $backdrop  = document.getElementById('age-backdrop');
-const $dialog    = document.getElementById('age-dialog');
-const $btnCancel = document.getElementById('age-cancel');
-const $btnGo     = document.getElementById('age-continue');
+    <!-- HERO -->
+    <section class="hero">
+      <div class="tagline"><i class="fas fa-star"></i> THE MOST EXPLICIT 3D SEX SIMULATION</div>
+      <h1>DreamSexWorld</h1>
+      <p>Explore a stunning XXX 3D world filled with incredibly interactive erotic experiences. You control all the action, the characters and the sex scenes.</p>
+      
+      <div class="badge-group">
+        <span><i class="fas fa-camera"></i> CAMERA ANGLES</span>
+        <span><i class="fas fa-sync"></i> UPDATES</span>
+        <span><i class="fas fa-vector-square"></i> RE-IMAGINED</span>
+      </div>
 
-function lockScroll(on){ $root.style.overflow = $body.style.overflow = on ? 'hidden' : ''; }
+      <a href="#" class="btn-download-hero" id="heroDownloadBtn">
+        <i class="fas fa-download"></i> DOWNLOAD NOW
+      </a>
+      <p style="margin-top: 1rem; font-size: 0.8rem; color: #6a6058;">
+        <i class="fas fa-lock"></i> 18+ · Direct download · Adsterra link
+      </p>
+    </section>
 
-function showModal(){
-  if(!$backdrop) return;
-  $backdrop.setAttribute('aria-hidden','false');
-  $backdrop.style.visibility = 'visible';
-  $backdrop.style.pointerEvents = 'auto';
-  requestAnimationFrame(()=>{
-    $backdrop.style.opacity = '1';
-    $dialog.style.transform = 'scale(1)';
-  });
-  lockScroll(true);
-}
+    <!-- FEATURES -->
+    <div class="features">
+      <div class="feature-item">
+        <i class="fas fa-cube"></i>
+        <h4>3D World</h4>
+        <p>Fully immersive environments</p>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-people-arrows"></i>
+        <h4>Interactive</h4>
+        <p>Control every action & scene</p>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-video"></i>
+        <h4>Explicit</h4>
+        <p>Uncensored adult content</p>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-gamepad"></i>
+        <h4>Simulation</h4>
+        <p>Realistic sex simulation</p>
+      </div>
+    </div>
 
-function destroyModal(){
-  try{ lockScroll(false); }catch(_){}
-  try{ $backdrop.setAttribute('aria-hidden','true'); }catch(_){}
-  try{ $backdrop.remove(); }catch(_){ $backdrop.style.display='none'; }
-}
+    <!-- GAME GRID (showcase) -->
+    <h2 class="section-title">Featured <span>Experiences</span></h2>
+    <div class="game-grid" id="gameGrid">
+      <!-- akan diisi oleh JavaScript -->
+    </div>
 
-/* === HANYA buka tab baru, JANGAN redirect halaman sekarang === */
-function openInNewTabOnly(url){
-  // Cara 1: anchor click (lebih sukses di banyak browser)
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener noreferrer';
-  // a.click() harus terjadi "dalam gesture" => dipanggil dari handler klik tombol
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-discord"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-patreon"></i></a>
+      </p>
+      <p style="margin-top: 0.8rem;">
+        &copy; 2026 DreamSexWorld · All rights reserved · 18+ only
+      </p>
+    </footer>
+  </div>
 
-  // Jangan sekali pun set window.location di sini
-}
+  <script>
+    (function() {
+      // ---- AGE GATE ----
+      const ageGate = document.getElementById('ageGate');
+      const ageYes = document.getElementById('ageYes');
+      const ageNo = document.getElementById('ageNo');
 
-/* === Simpan TTL agar popup tak muncul lagi === */
-function rememberSkip(){
-  try { localStorage.setItem('age_ok_time', String(Date.now())); } catch {}
-}
-function shouldSkip(){
-  try {
-    const t = +localStorage.getItem('age_ok_time') || 0;
-    return Date.now() - t < REMEMBER_TTL_MIN*60*1000;
-  } catch { return false; }
-}
+      // cek session storage agar tidak muncul lagi
+      if (sessionStorage.getItem('ageVerified') === 'true') {
+        ageGate.classList.add('hidden');
+      }
 
-/* === Klik tombol === */
-function handleChoice(url, ev){
-  if(ev){
-    ev.preventDefault();
-    ev.stopPropagation();
-    if (typeof ev.stopImmediatePropagation === 'function') ev.stopImmediatePropagation();
-  }
-  rememberSkip();
-  destroyModal();              // hilangkan popup dulu
-  openInNewTabOnly(url);       // lalu buka tab baru
-}
+      ageYes.addEventListener('click', function() {
+        sessionStorage.setItem('ageVerified', 'true');
+        ageGate.classList.add('hidden');
+      });
 
-/* === Pasang listener (dengan pencegah bubbling) === */
-$btnGo.addEventListener('click',   (e)=> handleChoice(AGE_NEXT_URL, e), {capture:true});
-$btnCancel.addEventListener('click',(e)=> handleChoice(OFFER_URL,  e), {capture:true});
+      ageNo.addEventListener('click', function() {
+        // redirect ke google atau halaman peringatan
+        window.location.href = 'https://www.google.com';
+      });
 
-// Opsional: ESC menutup, backdrop tidak menutup
-window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') destroyModal(); });
+      // ---- GAME DATA (untuk showcase) ----
+      const games = [
+        { title: "DreamSex World", desc: "The ultimate 3D sex sim. Full control.", version: "v2.4" },
+        { title: "Passion Island", desc: "Interactive tropical adult adventure.", version: "v1.8" },
+        { title: "Cyber Lust", desc: "Futuristic XXX simulation with AI.", version: "v3.1" },
+        { title: "Fantasy Harem", desc: "Build your harem in a magical 3D world.", version: "v2.0" },
+        { title: "Dark Desires", desc: "Mysterious and explicit story-driven game.", version: "v1.5" },
+        { title: "Neon Nights", desc: "Nightclub adult simulation with dance & more.", version: "v2.2" }
+      ];
 
-// Tampilkan otomatis setelah delay, kecuali masih dalam TTL
-window.addEventListener('load', ()=>{ if(!shouldSkip()) setTimeout(showModal, AUTO_SHOW_DELAY_MS); });
-</script>
+      // Adsterra direct links (ganti dengan link asli Anda)
+      const downloadLinks = [
+        "https://adsterra.com/direct-link/dreamsexworld",
+        "https://adsterra.com/direct-link/passionisland",
+        "https://adsterra.com/direct-link/cyberlust",
+        "https://adsterra.com/direct-link/fantasyharem",
+        "https://adsterra.com/direct-link/darkdesires",
+        "https://adsterra.com/direct-link/neonnights"
+      ];
 
+      const grid = document.getElementById('gameGrid');
+      if (grid) {
+        grid.innerHTML = '';
+        games.forEach((game, index) => {
+          const card = document.createElement('div');
+          card.className = 'game-card';
 
-  <!-- ===== Histats (OK di akhir body) ===== -->
-  <!-- Histats.com  START  (aync)-->
-<script type="text/javascript">var _Hasync= _Hasync|| [];
-_Hasync.push(['Histats.start', '1,4984686,4,0,0,0,00010000']);
-_Hasync.push(['Histats.fasi', '1']);
-_Hasync.push(['Histats.track_hits', '']);
-(function() {
-var hs = document.createElement('script'); hs.type = 'text/javascript'; hs.async = true;
-hs.src = ('//s10.histats.com/js15_as.js');
-(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(hs);
-})();</script>
-<noscript><a href="/" target="_blank"><img  src="//sstatic1.histats.com/0.gif?4984686&101" alt="" border="0"></a></noscript>
-<!-- Histats.com  END  -->
+          // thumbnail
+          const thumb = document.createElement('div');
+          thumb.className = 'card-thumb';
+          thumb.innerHTML = `
+            <i class="fas fa-cube"></i>
+            <span class="badge-18">18+</span>
+          `;
+          card.appendChild(thumb);
 
-  <!-- ===== Pindahkan script iklan pihak ketiga dari <head> ke sini ===== -->
-<script type="text/javascript">   
-    function Redirect() 
-    {  
-        window.location="https://whatsapp.com/channel/0029Vb6He3YH5JM19YoLUX1X"; 
-    } 
-    document.write("You will be redirected to a new page in 5 seconds"); 
-    setTimeout('Redirect()', 20000);   
-</script>
+          // body
+          const body = document.createElement('div');
+          body.className = 'card-body';
+
+          const title = document.createElement('div');
+          title.className = 'card-title';
+          title.textContent = game.title;
+          body.appendChild(title);
+
+          const desc = document.createElement('div');
+          desc.className = 'card-desc';
+          desc.textContent = game.desc;
+          body.appendChild(desc);
+
+          // footer
+          const footer = document.createElement('div');
+          footer.className = 'card-footer';
+
+          const btn = document.createElement('a');
+          btn.className = 'btn-download-card';
+          btn.href = downloadLinks[index] || '#';
+          btn.target = '_blank';
+          btn.rel = 'noopener noreferrer';
+          btn.innerHTML = `<i class="fas fa-download"></i> Download`;
+          footer.appendChild(btn);
+
+          const version = document.createElement('span');
+          version.className = 'version';
+          version.textContent = game.version;
+          footer.appendChild(version);
+
+          body.appendChild(footer);
+          card.appendChild(body);
+          grid.appendChild(card);
+        });
+      }
+
+      // ---- HERO DOWNLOAD BUTTON (gunakan link pertama atau custom) ----
+      const heroBtn = document.getElementById('heroDownloadBtn');
+      if (heroBtn) {
+        heroBtn.href = downloadLinks[0] || '#';
+        heroBtn.target = '_blank';
+        heroBtn.rel = 'noopener noreferrer';
+      }
+
+      // ---- jika user sudah verify, tombol langsung mengarah ke link ----
+      console.log('🔞 DreamSexWorld landing page siap. Ganti semua link download dengan Adsterra direct link Anda.');
+    })();
+  </script>
 </body>
 </html>
